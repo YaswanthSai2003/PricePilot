@@ -37,7 +37,7 @@ app.include_router(router, prefix="/api")
 
 
 @app.get("/")
-def.root():
+def root():
     return{
         "app":"PricePilot",
         "description":"Revenue Intelligence API for Short term Rental Analytics",
