@@ -37,10 +37,12 @@ app.include_router(router, prefix="/api")
 
 
 @app.get("/")
-def root():
-    return {
-        "app": settings.app_name,
-        "version": settings.app_version,
-        "docs": "/docs",
-        "description": "Revenue Intelligence API for Short-Term Rental Analytics",
+def.root():
+    return{
+        "app":"PricePilot",
+        "description":"Revenue Intelligence API for Short term Rental Analytics",
+        "docs_url":"/docs",
+        "openapi_url":"/openapi.json",
+        "health_check":"/api/health",
+        "version":"1.0.0"
     }
