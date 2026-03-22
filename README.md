@@ -2,6 +2,9 @@
 
 Revenue Intelligence API for Short-Term Rental Analytics.
 
+## Live API
+https://pricepilot-api-cek2.onrender.com/
+
 ## Features
 
 - FastAPI backend
