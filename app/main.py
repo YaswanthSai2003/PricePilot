@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 from app.api.routes import router
 from app.core.config import settings
@@ -36,13 +37,6 @@ def on_startup():
 app.include_router(router, prefix="/api")
 
 
-@app.get("/docs")
+@app.get("/", include_in_schema=False)
 def root():
-    return{
-        "app":"PricePilot",
-        "description":"Revenue Intelligence API for Short term Rental Analytics",
-        "docs_url":"/docs",
-        "openapi_url":"/openapi.json",
-        "health_check":"/api/health",
-        "version":"1.0.0"
-    }
+    return RedirectResponse(url="/docs")
