@@ -36,7 +36,7 @@ def on_startup():
 app.include_router(router, prefix="/api")
 
 
-@app.get("/")
+@app.get("/docs")
 def root():
     return{
         "app":"PricePilot",
