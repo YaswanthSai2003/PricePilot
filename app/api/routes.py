@@ -118,7 +118,30 @@ def delete_property(
 
 
 # Upload routes
-@router.post("/upload/bookings")
+@router.post(
+    "/upload/bookings",
+    summary="Upload booking dataset",
+    description="""
+    Upload a CSV file containing booking records.
+    You can use the sample file available in the repository:
+    `sample_data/sample_bookings.csv`
+
+    Required columns:
+    - property_id
+    - check_in (YYYY-MM-DD)
+    - check_out (YYYY-MM-DD)
+    - price
+    - booked_on (YYYY-MM-DD)
+
+    Example CSV:
+    
+    property_id,check_in,check_out,price,booked_on
+    1,2025-03-01,2025-03-05,5000,2025-02-20
+    1,2025-03-10,2025-03-12,4500,2025-02-25
+    2,2025-03-02,2025-03-06,6000,2025-02-22
+    3,2025-03-05,2025-03-07,7000,2025-02-28
+    """,
+)
 def upload_bookings(
     file: UploadFile = File(...),
     session: Session = Depends(get_session),
@@ -165,20 +188,19 @@ def upload_bookings(
         session.add_all(bookings)
         session.commit()
 
-        # Clear stale analytics cache after new data upload
+        # Clear cache after upload
         delete_cache("analytics:revenue_summary")
         delete_cache("analytics:revenue_by_property")
         delete_cache("analytics:revenue_by_city")
 
         return {
-            "message": f"{len(bookings)} bookings uploaded successfully",
+            "message": f"{len(bookings)} bookings uploaded successfully"
         }
 
     except HTTPException:
         raise
     except Exception:
         raise HTTPException(status_code=500, detail="Failed to process uploaded CSV")
-
 
 # Analytics routes
 @router.get("/analytics/revenue", response_model=RevenueSummary)
